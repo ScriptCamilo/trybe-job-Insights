@@ -59,31 +59,33 @@ def get_max_salary(path):
     jobs_list = read(path)
     max_salary = 0
     for job in jobs_list:
-        is_salary_invalid = job["max_salary"] != "invalid"
-        is_salary_empty = job["max_salary"] != ""
-        if is_salary_invalid and is_salary_empty:
+        is_salary_not_invalid = job["max_salary"] != "invalid"
+        is_salary_not_empty = job["max_salary"] != ""
+
+        if is_salary_not_invalid and is_salary_not_empty:
             is_salary_greater = float(job["max_salary"]) > max_salary
+
             if is_salary_greater:
                 max_salary = int(job["max_salary"])
     return max_salary
 
 
 def get_min_salary(path):
-    """Get the minimum salary of all jobs
+    jobs_list = read(path)
+    min_salary = None
+    for job in jobs_list:
+        is_salary_not_invalid = job["min_salary"] != "invalid"
+        is_salary_not_empty = job["min_salary"] != ""
 
-    Must call `read`
+        if is_salary_not_invalid and is_salary_not_empty:
+            if min_salary is None:
+                min_salary = float(job["min_salary"])
+                continue
 
-    Parameters
-    ----------
-    path : str
-        Must be passed to `read`
-
-    Returns
-    -------
-    int
-        The minimum salary paid out of all job opportunities
-    """
-    pass
+            is_salary_smaller = float(job["min_salary"]) < min_salary
+            if is_salary_smaller:
+                min_salary = int(job["min_salary"])
+    return min_salary
 
 
 def matches_salary_range(job, salary):
